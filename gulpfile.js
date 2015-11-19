@@ -1,6 +1,7 @@
 var gulp = require('gulp'),
-    sass = require('gulp-sass'),
+    sass = require('gulp-sass'),               
     less = require('gulp-less'),
+    autoprefixer = require('gulp-autoprefixer'),       //自动添加浏览器前缀
     rename = require('gulp-rename'),
     minifycss = require('gulp-minify-css'),
     jshint = require('gulp-jshint'),
@@ -13,6 +14,13 @@ var gulp = require('gulp'),
 gulp.task('sass', function(){
 	return gulp.src('src/css/*.scss')
 		.pipe(sass({style: 'expanded'}))
+		.pipe(autoprefixer({
+			browsers: ['last 2 versions'],
+            cascade: true, //是否美化属性值 默认：true 像这样：
+            //-webkit-transform: rotate(45deg);
+            //        transform: rotate(45deg);
+            remove:true //是否去掉不必要的前缀 默认：true 
+		}))
 		.pipe(gulp.dest('src/css'))
 		.pipe(rename({suffix: '.min'}))
 		.pipe(minifycss())
@@ -23,6 +31,13 @@ gulp.task('sass', function(){
 gulp.task('less', function(){
 	return gulp.src('src/css/*.less')
 		.pipe(less())
+		.pipe(autoprefixer({
+			browsers: ['last 2 versions'],
+            cascade: true, //是否美化属性值 默认：true 像这样：
+            //-webkit-transform: rotate(45deg);
+            //        transform: rotate(45deg);
+            remove:true //是否去掉不必要的前缀 默认：true 
+		}))
 		.pipe(gulp.dest('src/css'))
 		.pipe(rename({suffix: '.min'}))
 		.pipe(minifycss())
