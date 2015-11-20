@@ -12,7 +12,7 @@ var gulp = require('gulp'),
     del = require('del');
 
 gulp.task('sass', function(){
-	return gulp.src('src/css/*.scss')
+	return gulp.src('./src/css/*.scss')
 		.pipe(sass({style: 'expanded'}))
 		.pipe(autoprefixer({
 			browsers: ['last 2 versions'],
@@ -21,15 +21,15 @@ gulp.task('sass', function(){
             //        transform: rotate(45deg);
             remove:true //是否去掉不必要的前缀 默认：true 
 		}))
-		.pipe(gulp.dest('src/css'))
+		.pipe(gulp.dest('./src/css'))
 		.pipe(rename({suffix: '.min'}))
 		.pipe(minifycss())
-		.pipe(gulp.dest('release/css'))
+		.pipe(gulp.dest('./release/css'))
 		.pipe(notify({message: 'Sass task complate!'}));
 });
 
 gulp.task('less', function(){
-	return gulp.src('src/css/*.less')
+	return gulp.src('./src/css/*.less')
 		.pipe(less())
 		.pipe(autoprefixer({
 			browsers: ['last 2 versions'],
@@ -38,37 +38,66 @@ gulp.task('less', function(){
             //        transform: rotate(45deg);
             remove:true //是否去掉不必要的前缀 默认：true 
 		}))
-		.pipe(gulp.dest('src/css'))
+		.pipe(gulp.dest('./src/css'))
 		.pipe(rename({suffix: '.min'}))
 		.pipe(minifycss())
-		.pipe(gulp.dest('release/css'))
+		.pipe(gulp.dest('./release/css'))
 		.pipe(notify({message: 'Less task complate!'}));
 });
 
 gulp.task('js', function(){
-	return gulp.src('src/js/*.js')
+	return gulp.src('./src/js/*.js')
 		// .pipe(jshint('.jshintrc'))
 		.pipe(jshint.reporter('default'))
 		.pipe(concat('index.js'))
-		// .pipe(gulp.dest('release/js'))
 		.pipe(rename({suffix: '.min'}))
 		.pipe(uglify())
-		.pipe(gulp.dest('release/js'))
+		.pipe(gulp.dest('./release/js'))
 		.pipe(notify({message: 'Js task complate!'}));
 });
 
 gulp.task('copy', function(){
-	return gulp.src('src/index.html')
-		.pipe(gulp.dest('release'))
+	return gulp.src('./src/index.html')
+		.pipe(gulp.dest('./release'))
 		.pipe(notify({message: 'Copy task complate!'}));
 });
 
 gulp.task('clean', function (){
-	return gulp.src(['release', 'src/css/*.css'], {read: false})
+	return gulp.src(['./release', './src/css/*.css'], {read: false})
 		.pipe(clean())
 		.pipe(notify({message: 'Clean task complate!'}));
 });
 
+gulp.task('watch', function(){
+	gulp.watch('./src/css/*.less', function(event){
+		console.log();
+		console.log("------------------------" + event.type + "--------------------------------");
+		console.log("Files " + event.path + " was " + event.type);
+		gulp.start('less');
+	});
+
+	gulp.watch('./src/css/*.scss', function(event){
+		console.log();
+		console.log("------------------------" + event.type + "--------------------------------");
+		console.log("Files " + event.path + " was " + event.type);
+		gulp.start('sass');
+	});
+
+	gulp.watch('./src/js/*.js', function(event){
+		console.log();
+		console.log("------------------------" + event.type + "--------------------------------");
+		console.log("Files " + event.path + " was " + event.type);
+		gulp.start('js');
+	});
+
+	gulp.watch('./src/*.html', function(event){
+		console.log();
+		console.log("------------------------" + event.type + "--------------------------------");
+		console.log("Files " + event.path + " was " + event.type);
+		gulp.start('copy');
+	});
+});
+
 gulp.task('default', ['clean'], function(){
-	gulp.start('js', 'less', 'copy');
+	gulp.start('watch', 'js', 'less', 'copy');
 });
