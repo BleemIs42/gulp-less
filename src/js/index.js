@@ -6,3 +6,6 @@ function test (name, sex, job){
 	console.log(" sex: " + (sex || "male"));
 	console.log(" job: " + (job || "coder"));
 }
+
+
+// console.log(111)

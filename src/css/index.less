@@ -61,7 +61,7 @@
     box-shadow: @arguments;
 }
 .class1 {
-	width:300px;
+	width:10px;
 	height:50px;
     .mixin(@margin: 20px; @color: #33acfe);
     .box-shadow(2px, 5px);
@@ -70,11 +70,11 @@
   @average: ((@x + @y) / 2);
 }
 .class2 {
-	width:400px;
+	width:300px;
 	height:80px;
     .mixin(#efca44; @padding: 40px);
     .box-shadow(3px, 3px);
-    .average(16px, 8px);  // "call" the mixin
+    .average(16px, 8px);             // "call" the mixin
   	border: @average solid red;      // use its "return" value
 }
 
@@ -92,7 +92,7 @@
 	.mixin2(#ddd);
 }
 .class4 { 
-	.mixin2(#555);
+	.mixin2(#ccc);
 }
 
 // 7.循环
@@ -143,10 +143,11 @@
   }
 }
 .content{
-	width:20px;
-	height:200px;
-	color:red;
+  width:20px;
+  height:20px;
 }
+
+
 
 
 
