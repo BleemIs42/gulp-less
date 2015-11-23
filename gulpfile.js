@@ -19,7 +19,7 @@ gulp.task('cleanHtml', function (){
 		.pipe(notify({message: 'cleanHtml task complate!'}));
 });
 gulp.task('copyHtml', function(){
-	return gulp.src('./src/index.html')
+	return gulp.src('./src/*.html')
 		.pipe(gulp.dest('./compress/'))
 		.pipe(gulp.dest('./release/'))
 		.pipe(notify({message: 'copyHtml task complate!'}));
@@ -58,9 +58,9 @@ gulp.task('md5Less', function(){
 });
 //替换html中的css
 gulp.task('replaceLess', function(){
-	return gulp.src(['./release/css/rev-manifest.json', 'release/index.html'])
+	return gulp.src(['./release/css/*.json', 'release/*.html'])
 		.pipe(revCollector())
-		.pipe(gulp.dest('./release/'))
+		.pipe(gulp.dest('./release'))
 		.pipe(connect.reload())
 		.pipe(notify({message: 'replaceLess task complate!'}));
 });
@@ -93,9 +93,9 @@ gulp.task('md5Js', function(){
 });
 //替换html中的js
 gulp.task('replaceJs', function(){
-	return gulp.src(['./release/js/rev-manifest.json', 'release/*.html'])
+	return gulp.src(['./release/js/*.json', 'release/*.html'])
 		.pipe(revCollector())
-		.pipe(gulp.dest('./release/'))
+		.pipe(gulp.dest('./release'))
 		.pipe(connect.reload())
 		.pipe(notify({message: 'replaceJs task complate!'}));
 });
@@ -121,21 +121,18 @@ gulp.task('watch', function(){
 
 	gulp.watch('./src/*.html', function(event){
 		console.log();
-		console.log("------------------------" + event.type + "--------------------------------");
 		console.log("Files " + event.path + " was " + event.type);
 		runSequence('cleanHtml', 'copyHtml', 'replaceLess', 'replaceJs');
 	});
 	
 	gulp.watch('./src/css/*.less', function(event){
 		console.log();
-		console.log("------------------------" + event.type + "--------------------------------");
 		console.log("Files " + event.path + " was " + event.type);
 		runSequence('cleanHtml', 'copyHtml', 'replaceJs', 'less');
 	});
 
 	gulp.watch('./src/js/*.js', function(event){
 		console.log();
-		console.log("------------------------" + event.type + "--------------------------------");
 		console.log("Files " + event.path + " was " + event.type);
 		runSequence('cleanHtml', 'copyHtml', 'replaceLess', 'js');
 	});
@@ -144,9 +141,9 @@ gulp.task('watch', function(){
 
 gulp.task('default', function(){
 	runSequence(
-				['cleanHtml', 'cleanLess', 'cleanJs'], 
-				['copyHtml', 'miniLess', 'miniJs'],
-				['md5Less', 'md5Js'],
-				'replaceLess', 'replaceJs', 'server', 'watch'
-				);
+		['cleanHtml', 'cleanLess', 'cleanJs', 'clean'], 
+		['copyHtml', 'miniLess', 'miniJs'],
+		['md5Less', 'md5Js'],
+		'replaceLess', 'replaceJs', 'server', 'watch'
+	);
 });
