@@ -5,7 +5,6 @@
   "main": "gulpfile.js",
   "dependencies": {},
   "devDependencies": {
-    "del": "^2.1.0",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-clean": "^0.3.1",
