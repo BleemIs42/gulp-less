@@ -8,3 +8,4 @@
   $ npm install  
   $ gulp
 ```
+Open browser **http://localhost:8000**
