@@ -8,5 +8,7 @@ function test (name, sex, job){
 	console.log(" job: " + (job || "coder"));
 }
 
+var a = '../css/index.css';
+
 
 // console.log(111)
